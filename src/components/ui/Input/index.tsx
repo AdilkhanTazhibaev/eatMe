@@ -29,7 +29,8 @@ const InputWrapper = styled.div.withConfig({
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
   background: #e7e7eb;
   border-radius: 12px;
   border: 2px solid transparent;

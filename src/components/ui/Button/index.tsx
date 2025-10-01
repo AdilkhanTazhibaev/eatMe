@@ -5,6 +5,7 @@ import Text from '../typography/Text.tsx'
 type Variant =
   | 'accent/solid'
   | 'accent/soft'
+  | 'accent/text'
   | 'neutral/filled'
   | 'neutral/ghost'
   | 'destructive/text'
@@ -113,6 +114,19 @@ const variantCss = (v: Variant, t: ReturnType<typeof getTokens>) => {
 
         &:active {
           filter: brightness(0.97);
+        }
+      `
+    case 'accent/text':
+      return css`
+        background: transparent;
+        color: ${t.brand500};
+
+        &:hover {
+          filter: brightness(0.9);
+        }
+
+        &:active {
+          filter: brightness(0.9);
         }
       `
     case 'accent/soft':

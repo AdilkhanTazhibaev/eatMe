@@ -15,7 +15,8 @@ const Wrapper = styled.div`
   display: flex;
   gap: 20px;
   align-items: center;
-  padding: 16px;
+  padding-bottom: 16px;
+  padding-top: 16px;
 `
 
 const Caption = styled.div`
@@ -35,7 +36,7 @@ const NavigationLink: React.FC<NavigationLinkProps> = ({
   action,
   level = 'h6',
   actionBg = 50,
-}) => {
+}: NavigationLinkProps) => {
   return (
     <>
       <Wrapper>

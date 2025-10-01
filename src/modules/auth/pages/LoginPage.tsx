@@ -1,51 +1,58 @@
-import React from 'react'
-import styled from 'styled-components'
-import ArrowRight from '../../../assets/icons/arrow-right.svg?react'
-import NavigationLink from '../../../components/ui/NavigationLink'
-import Heading from '../../../components/ui/typography/Heading.tsx'
-import { raw } from '../../../theme/tokens.ts'
+import AuthLayout from '@/layouts/AuthLayout'
+import EnterPinCode from '@/modules/auth/views/EnterPinCode.tsx'
+import SelectCity from '@/modules/auth/views/SelectCity.tsx'
+import SelectLanguage from '@/modules/auth/views/SelectLanguage.tsx'
+import { useURLState } from '@/shared/hooks/useURLState'
+import { useEffect, useMemo } from 'react'
+import { AuthMode, LoginStep, useAuthStore } from '../stores/auth.store'
+import EnterPhone from '../views/EnterPhone'
 
-type City = {
-  id: string
-  name: string
+const loginFlow = [
+  LoginStep.SelectCity,
+  LoginStep.SelectLanguage,
+  LoginStep.EnterPhone,
+  LoginStep.EnterPinCode,
+] as const
+
+function isLoginStep(v: any): v is LoginStep {
+  return loginFlow.includes(v)
 }
 
-interface Props {
-  items: City[]
-  loading?: boolean
-  onSelect: (city: City) => void
-}
+export default function LoginPage() {
+  const { loginStep, setMode, patch } = useAuthStore()
+  const { params, setParams } = useURLState<{ step?: string }>()
 
-const WrapperHeader = styled.div`
-  padding-right: 16px;
-  padding-left: 16px;
-`
+  useEffect(() => {
+    setMode(AuthMode.Login)
 
-const WrapperHeading = styled.div`
-  padding-top: 16px;
-  padding-bottom: 16px;
-`
+    const urlStep = params.step as LoginStep | undefined
+    if (urlStep && isLoginStep(urlStep) && urlStep !== loginStep) {
+      patch({ loginStep: urlStep })
+    } else {
+      if (params.step !== loginStep) {
+        setParams({ step: loginStep }, true)
+      }
+    }
+  }, [])
 
-export const CityList: React.FC<Props> = ({ items, loading, onSelect }) => {
-  if (loading) {
-    return <p>Загрузка...</p>
-  }
-  return (
-    <div>
-      <WrapperHeader>
-        <WrapperHeading>
-          <Heading level={4}>Выберите ваш город</Heading>
-        </WrapperHeading>
-        <WrapperHeading>
-          <Heading level={4}>Select your city</Heading>
-        </WrapperHeading>
-      </WrapperHeader>
-      {items.map((city) => (
-        <>
-          <NavigationLink actionBg={0} level={'h6'} title={city.name} action={<ArrowRight />} />
-          <hr style={{ background: raw.colors.neutral['100'] }} />
-        </>
-      ))}
-    </div>
+  useEffect(() => {
+    if (params.step !== loginStep) {
+      setParams({ step: loginStep }, true)
+    }
+  }, [loginStep, params.step, setParams])
+
+  const View = useMemo(
+    () =>
+      (
+        ({
+          [LoginStep.SelectCity]: <SelectCity />,
+          [LoginStep.SelectLanguage]: <SelectLanguage />,
+          [LoginStep.EnterPhone]: <EnterPhone />,
+          [LoginStep.EnterPinCode]: <EnterPinCode />,
+        }) as const
+      )[loginStep] ?? <SelectCity />,
+    [loginStep],
   )
+
+  return <AuthLayout>{View}</AuthLayout>
 }
