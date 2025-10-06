@@ -1,5 +1,5 @@
-import AuthLayout from '@/layouts/AuthLayout'
-import EnterPinCode from '@/modules/auth/views/EnterPinCode.tsx'
+import DefaultLayout from '@/layouts/DefaultLayout.tsx'
+import EnterOtpCode from '@/modules/auth/views/EnterOtpCode.tsx'
 import SelectCity from '@/modules/auth/views/SelectCity.tsx'
 import SelectLanguage from '@/modules/auth/views/SelectLanguage.tsx'
 import { useURLState } from '@/shared/hooks/useURLState'
@@ -48,11 +48,11 @@ export default function LoginPage() {
           [LoginStep.SelectCity]: <SelectCity />,
           [LoginStep.SelectLanguage]: <SelectLanguage />,
           [LoginStep.EnterPhone]: <EnterPhone />,
-          [LoginStep.EnterPinCode]: <EnterPinCode />,
+          [LoginStep.EnterSendCode]: <EnterOtpCode />,
         }) as const
       )[loginStep] ?? <SelectCity />,
     [loginStep],
   )
 
-  return <AuthLayout>{View}</AuthLayout>
+  return <DefaultLayout>{View}</DefaultLayout>
 }

@@ -1,4 +1,4 @@
-import AuthLayout from '@/layouts/AuthLayout'
+import DefaultLayout from '@/layouts/DefaultLayout.tsx'
 import {
   AuthMode,
   registerFlow,
@@ -59,5 +59,5 @@ export default function RegistrationPage() {
     [registerStep],
   )
 
-  return <AuthLayout>{View}</AuthLayout>
+  return <DefaultLayout>{View}</DefaultLayout>
 }

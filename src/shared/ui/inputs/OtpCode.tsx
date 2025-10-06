@@ -1,6 +1,6 @@
 import { raw } from '@theme/tokens.ts'
 import Text from '@ui/typography/Text.tsx'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 type Props = {
@@ -36,9 +36,7 @@ export default function OtpCode({
   const inputRef = useRef<HTMLInputElement>(null)
 
   // таймер
-  useEffect(() => {
-    setLeft(resendSeconds)
-  }, [resendSeconds])
+  useEffect(() => setLeft(resendSeconds), [resendSeconds])
   useEffect(() => {
     if (left <= 0) return
     const t = setInterval(() => setLeft((s) => (s > 0 ? s - 1 : 0)), 1000)
@@ -61,9 +59,7 @@ export default function OtpCode({
     onChange?.(clean)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCode(e.target.value)
-  }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setCode(e.target.value)
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Backspace' && code.length > 0) {
@@ -79,24 +75,21 @@ export default function OtpCode({
     setCode(code + text)
   }
 
-  const filled = useMemo(() => code.split(''), [code])
-
+  const chars = code.split('')
   const canResend = left === 0
 
   return (
     <Wrap>
-      <Dots onClick={() => inputRef.current?.focus()} role="group" aria-label="OTP code">
-        {Array.from({ length }).map((_, i) => (
-          <Dot key={i} $filled={!!filled[i]} />
-        ))}
+      <Dots onClick={() => inputRef.current?.focus()}>
+        {Array.from({ length }).map((_, i) =>
+          value ? <Digit key={i}>{chars[i] ?? ''}</Digit> : <Dot key={i} $filled={!!chars[i]} />,
+        )}
       </Dots>
 
-      {/* скрытый инпут, собирает ввод с клавиатуры/мобилки */}
       <HiddenInput
         ref={inputRef}
         inputMode="numeric"
         autoComplete="one-time-code"
-        aria-hidden
         value={code}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
@@ -106,10 +99,12 @@ export default function OtpCode({
       <TimerRow style={{ color: textColor }}>
         {canResend ? (
           <ResendButton type="button" onClick={onResend}>
-            Получить повторно
+            <Text size={14} weight="regular" color={raw.colors.neutral['700']}>
+              Получить повторно
+            </Text>
           </ResendButton>
         ) : (
-          <Text size={14} weight={'regular'} color={raw.colors.neutral['700']}>
+          <Text size={14} weight="regular" color={raw.colors.neutral['700']}>
             Получить повторно через {formatTimer(left)}
           </Text>
         )}
@@ -142,9 +137,24 @@ const Dots = styled.div`
 const Dot = styled.span<{ $filled?: boolean }>`
   width: 10px;
   height: 10px;
-  border-radius: 999px;
-  background: ${({ $filled }) =>
-    $filled ? '#E5E7EB' : '#C4C4C4'}; /* светлые точки как на макете */
+  border-radius: 50%;
+  background: ${({ $filled }) => ($filled ? '#1D1D1E' : '#C4C4C4')};
+`
+
+const Digit = styled.span`
+  font-size: 32px;
+  font-weight: 700;
+  color: #1d1d1e;
+  min-width: 20px;
+  text-align: center;
+  font-family:
+    'Roboto Flex',
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
 `
 
 const HiddenInput = styled.input`

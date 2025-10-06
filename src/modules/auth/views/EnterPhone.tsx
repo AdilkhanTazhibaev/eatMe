@@ -1,5 +1,5 @@
 import { Grid, HeadingWrapper } from '@/components/snippets'
-import { useFooter } from '@/layouts/AuthLayout.tsx'
+import { useFooter } from '@/layouts/DefaultLayout.tsx'
 import { RegisterStep, useAuthStore } from '@/modules/auth/stores/auth.store.ts'
 import { useURLState } from '@/shared/hooks/useURLState.ts'
 import InputLarge from '@/shared/ui/inputs/InputLarge.tsx'
@@ -45,7 +45,7 @@ export default function EnterPhone() {
         <Heading level={4}>Введите мобильный номер</Heading>
         <Heading level={6}>Отправим код подтверждения входа</Heading>
       </HeadingWrapper>
-      <Grid $gap={12}>
+      <Grid style={{ marginTop: 24 }} $gap={12}>
         <InputLarge value={''} onChange={() => {}} />
       </Grid>
     </>

@@ -1,23 +1,15 @@
-// components/topbar/TopBar.tsx
+import { IconWrap } from '@/components/snippets' // поправь путь
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { Text } from '../typography/Text' // поправь путь
+import { Text } from '../typography/Text'
 
-// ── API ─────────────────────────────────────────────────────────────────────────
 export type TopBarProps = {
-  /** Заголовок по центру (одна строка) */
   title?: React.ReactNode
-  /** Подзаголовок/капшен под заголовком */
   caption?: React.ReactNode
-  /** Кастомный центр (например, поисковая строка). Если задан — title/caption игнорятся */
   center?: React.ReactNode
-  /** Левая кнопка (иконка/кнопка) */
   left?: React.ReactNode
-  /** Правая кнопка (иконка/кнопка) */
   right?: React.ReactNode
-  /** Показать имитатор статус-бара как в макете (для демо/превью) */
   statusBar?: boolean
-  /** Скругление низа контейнера (0 0 20px 20px) */
   rounded?: boolean
   className?: string
 }
@@ -36,7 +28,9 @@ export function TopBar({
     <Wrap className={className} $rounded={rounded} data-statusbar={statusBar || undefined}>
       {statusBar && <StatusBar />}
       <Toolbar>
-        <Side>{left}</Side>
+        <Side>
+          <IconWrap $color={50}>{left}</IconWrap>
+        </Side>
 
         <Center>
           {center ? (
@@ -57,14 +51,13 @@ export function TopBar({
           )}
         </Center>
 
-        <Side right>{right}</Side>
+        <Side right>
+          <IconWrap $color={50}>{right}</IconWrap>
+        </Side>
       </Toolbar>
     </Wrap>
   )
 }
-
-// ── Вспомогательные UI части (иконк. кнопки) ───────────────────────────────────
-// Используй где удобно; либо передавай свои готовые кнопки в props.
 
 export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   /** по макету 32×32 */
@@ -90,18 +83,18 @@ export const IconButton = styled.button<IconButtonProps>`
   }
 `
 
-// ── Styles ─────────────────────────────────────────────────────────────────────
-
 const Wrap = styled.header<{ $rounded: boolean }>`
   background: #fff;
+  padding: 16px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
 
   ${({ $rounded }) =>
     $rounded &&
     css`
       border-radius: 0 0 20px 20px;
     `}
-  /* высота = 37 (status) + 48 (toolbar), если статусбар включён */
-    &[data-statusbar] {
+  &[data-statusbar] {
     min-height: 85px;
   }
 `
@@ -112,7 +105,6 @@ const Toolbar = styled.div`
   grid-template-columns: 44px 1fr 44px; /* 12px отступ + 32px кнопка */
   align-items: center;
   min-height: 48px;
-  padding: 0 12px; /* как в макете */
 `
 
 const Side = styled.div<{ right?: boolean }>`
@@ -146,7 +138,6 @@ const CenterText = styled.div`
   }
 `
 
-// Фэйковый статусбар для превью экранов (как в макете)
 const StatusBarRoot = styled.div`
   display: flex;
   align-items: center;

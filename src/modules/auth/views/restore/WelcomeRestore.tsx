@@ -1,6 +1,6 @@
 import ArrowRight from '@/assets/icons/arrow-narrow-right.svg?react'
 import { Grid } from '@/components/snippets'
-import { useFooter } from '@/layouts/AuthLayout.tsx'
+import { useFooter } from '@/layouts/DefaultLayout.tsx'
 import { RestoreStep, useAuthStore } from '@/modules/auth/stores/auth.store.ts'
 import { useURLState } from '@/shared/hooks/useURLState.ts'
 import { raw } from '@theme/tokens.ts'

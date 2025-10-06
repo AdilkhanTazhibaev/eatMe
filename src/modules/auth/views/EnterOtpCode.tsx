@@ -5,11 +5,13 @@ import OtpCode from '@/shared/ui/inputs/OtpCode.tsx'
 import { raw } from '@theme/tokens.ts'
 import Heading from '@ui/typography/Heading.tsx'
 import Text from '@ui/typography/Text.tsx'
+import { useState } from 'react'
 
 export default function EnterOtpCode() {
   const { patch, next } = useAuthStore()
   const { setParams } = useURLState<{ phone?: string; step?: string }>()
 
+  const [code, setCode] = useState()
   return (
     <>
       <Grid $gap={16}>
@@ -20,7 +22,7 @@ export default function EnterOtpCode() {
           </Text>
         </div>
         <Grid $gap={12}>
-          <OtpCode />
+          <OtpCode value={code} onChange={setCode} />
         </Grid>
       </Grid>
     </>

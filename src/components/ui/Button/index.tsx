@@ -272,7 +272,7 @@ const Spinner = styled.span<{ $size: Size }>`
   }
 `
 
-export const Button: React.FC<ButtonProps> = ({
+export function Button({
   children,
   variant = 'accent/solid',
   size = 56,
@@ -284,7 +284,7 @@ export const Button: React.FC<ButtonProps> = ({
   noGap = false,
   disabled,
   ...rest
-}) => {
+}: ButtonProps) {
   return (
     <StyledButton
       $variant={variant}

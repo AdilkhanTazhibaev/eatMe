@@ -1,7 +1,7 @@
 import LoginPage from '@/modules/auth/pages/LoginPage.tsx'
 import RegistrationPage from '@/modules/auth/pages/RegistrationPage.tsx'
-import { type RouteObject } from 'react-router-dom'
 import RestorePasswordPage from '@/modules/auth/pages/RestorePasswordPage.tsx'
+import { type RouteObject } from 'react-router-dom'
 
 export const routes: RouteObject[] = [
   {
@@ -11,5 +11,8 @@ export const routes: RouteObject[] = [
       { path: 'register', element: <RegistrationPage /> },
       { path: 'restore', element: <RestorePasswordPage /> },
     ],
+  },
+  {
+    path: '/',
   },
 ]

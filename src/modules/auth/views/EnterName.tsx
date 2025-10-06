@@ -1,5 +1,5 @@
 import { Grid } from '@/components/snippets'
-import { useFooter } from '@/layouts/AuthLayout'
+import { useFooter } from '@/layouts/DefaultLayout.tsx'
 import { useAuthStore } from '@/modules/auth/stores/auth.store'
 import { Button } from '@ui/Button'
 import { Input } from '@ui/Input'

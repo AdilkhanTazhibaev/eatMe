@@ -21,7 +21,7 @@ export enum LoginStep {
   SelectCity = 'SelectCity',
   SelectLanguage = 'SelectLanguage',
   EnterPhone = 'EnterPhone',
-  EnterPinCode = 'EnterPinCode',
+  EnterSendCode = 'EnterSendCode',
 }
 
 export enum RestoreStep {
@@ -42,7 +42,7 @@ export const loginFlow: LoginStep[] = [
   LoginStep.SelectCity,
   LoginStep.SelectLanguage,
   LoginStep.EnterPhone,
-  LoginStep.EnterPinCode,
+  LoginStep.EnterSendCode,
 ]
 
 export const restoreFlow: RestoreStep[] = [

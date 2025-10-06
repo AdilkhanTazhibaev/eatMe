@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import Calculator from '../../../assets/icons/_calculator.svg?react'
 import MessageSmileSquare from '../../../assets/icons/_message-smile-square.svg?react'
-import SuccessFilled from '../../../assets/icons/successFilled.svg?react'
 import { raw as t } from '../../../theme/tokens.ts'
 import Text from '../typography/Text.tsx'
 
@@ -110,13 +109,13 @@ const CloseBtn = styled.button`
 `
 
 const defaultIconByVariant: Record<Variant, React.ReactNode> = {
-  success: <SuccessFilled />,
+  success: <MessageSmileSquare />,
   accent: <MessageSmileSquare />,
   bonus: <Calculator />,
 }
 
 /* ——— Компонент ——— */
-export const Notice: React.FC<NoticeProps> = ({
+export function Notice({
   variant = 'success',
   size = 'regular',
   title,
@@ -126,7 +125,7 @@ export const Notice: React.FC<NoticeProps> = ({
   icon,
   onClose,
   className,
-}) => {
+}: NoticeProps) {
   const colors = palette[variant]
 
   return (
@@ -143,7 +142,7 @@ export const Notice: React.FC<NoticeProps> = ({
             </Text>
           )}
           {description && (
-            <Text size={12} weight={'regular'}>
+            <Text size={10} weight={'medium'}>
               {description}
             </Text>
           )}

@@ -30,8 +30,8 @@ export default function SelectLanguage() {
   return (
     <div>
       <HeadingWrapper>
-        <Heading level={4}>Тілді таңдаңыз Сегодня</Heading>
-        <Heading level={4}>Выберите язык Сегодня</Heading>
+        <Heading level={4}>Тілді таңдаңыз</Heading>
+        <Heading level={4}>Выберите язык</Heading>
       </HeadingWrapper>
       {langs.map((c) => (
         <NavigationLink

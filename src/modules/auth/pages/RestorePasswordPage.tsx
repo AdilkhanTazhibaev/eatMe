@@ -1,4 +1,4 @@
-import AuthLayout from '@/layouts/AuthLayout'
+import DefaultLayout from '@/layouts/DefaultLayout.tsx'
 import { AuthMode, RestoreStep, useAuthStore } from '@/modules/auth/stores/auth.store.ts'
 import EnterOtpCode from '@/modules/auth/views/EnterOtpCode.tsx'
 import EnterPhone from '@/modules/auth/views/EnterPhone'
@@ -25,5 +25,5 @@ export default function RestorePasswordPage() {
     [restoreStep],
   )
 
-  return <AuthLayout>{View}</AuthLayout>
+  return <DefaultLayout>{View}</DefaultLayout>
 }

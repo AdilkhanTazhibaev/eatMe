@@ -1,4 +1,5 @@
 // components/InfoField.tsx
+import { raw } from '@theme/tokens.ts'
 import React from 'react'
 import styled from 'styled-components'
 import { Heading } from '../typography/Heading'
@@ -28,9 +29,9 @@ export function InfoField({
   smallSuffix,
   caption,
   surface,
-  labelColor = '#3A3A3B',
+  labelColor = raw.colors.neutral['800'],
   valueColor = '#1D1D1E',
-  suffixColor = '#3A3A3B',
+  suffixColor = raw.colors.neutral['900'],
   className,
 }: InfoFieldProps) {
   return (
@@ -42,17 +43,9 @@ export function InfoField({
       )}
 
       <Row>
-        <Value $color={valueColor}>{renderValue(value, size)}</Value>
-
         {suffix !== undefined && (
           <Suffix $color={suffixColor}>
-            {smallSuffix ? (
-              <Text size={16} weight="regular">
-                {suffix}
-              </Text>
-            ) : (
-              renderValue(suffix, size)
-            )}
+            <Heading level={6}>{suffix}</Heading>
           </Suffix>
         )}
       </Row>
