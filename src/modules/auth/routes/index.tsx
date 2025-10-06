@@ -12,7 +12,4 @@ export const routes: RouteObject[] = [
       { path: 'restore', element: <RestorePasswordPage /> },
     ],
   },
-  {
-    path: '/',
-  },
 ]

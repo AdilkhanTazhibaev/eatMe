@@ -1,4 +1,4 @@
-import { ProgramDetail } from '@/modules/programs/views/ProgramDetail.tsx'
+import { ProgramDetail } from '@/modules/programs/screens/ProgramDetail.tsx'
 import React from 'react'
 
 export const Main: React.FC = () => {

@@ -22,6 +22,7 @@ export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonE
   trailing?: React.ReactNode
   loading?: boolean
   noGap?: boolean
+  onClick?: (event: MouseEvent) => void
 }
 
 const getTokens = (theme?: any) => {

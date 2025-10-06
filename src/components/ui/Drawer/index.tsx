@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 
 type Props = {
   open: boolean
-  onClose: () => void
+  onClose?: () => void
 
   /** Направление анимации выезда */
   from?: 'left' | 'right' | 'bottom'
@@ -169,7 +169,6 @@ export const Header = styled.header`
 export const Body = styled.div`
   flex: 1;
   overflow: auto;
-  padding: 16px;
 `
 
 export const Footer = styled.footer`

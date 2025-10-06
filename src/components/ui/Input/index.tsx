@@ -126,7 +126,7 @@ const ErrorText = styled.span`
   color: #ff3b30;
 `
 
-export const Input: React.FC<InputProps> = ({
+export function Input({
   type = 'text',
   placeholder,
   label,
@@ -138,7 +138,7 @@ export const Input: React.FC<InputProps> = ({
   error,
   maxLength,
   mask,
-}) => {
+}: InputProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)

@@ -57,8 +57,7 @@ export default function DefaultLayout({ children }: Props) {
 
   return (
     <Shell>
-      {header &&
-        (headerFixed ? <FixedHeader>{header}</FixedHeader> : <HeaderBar>{header}</HeaderBar>)}
+      {header && header}
 
       <HeaderContext.Provider value={headerApi}>
         <FooterContext.Provider value={footerApi}>
@@ -73,7 +72,7 @@ export default function DefaultLayout({ children }: Props) {
 
 const Main = styled.main<{ $hasFixed: boolean }>`
   flex: 1;
-  padding: 24px 16px 0;
+  padding: 24px 0 0;
   padding-bottom: ${({ $hasFixed }) => ($hasFixed ? '84px' : '0')};
 `
 

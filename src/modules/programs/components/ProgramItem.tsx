@@ -1,3 +1,4 @@
+import { Carousel } from '@/components/snippets'
 import { MealsCard } from '@/modules/programs/components/MealsCard.tsx'
 import type { Program } from '@/modules/programs/types.ts'
 import { raw } from '@theme/tokens.ts'
@@ -7,13 +8,16 @@ import { InfoField } from '@ui/InfoField'
 import Tag from '@ui/Tags'
 import TitleSubtitle from '@ui/TitleSubtitle'
 import Text from '@ui/typography/Text.tsx'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 interface Props extends Program {
   onClick: () => void
 }
 
 export function ProgramItem(props: Props) {
+  const navigate = useNavigate()
   return (
     <Wrap>
       <TitleSubtitle caption={props.description} title={props.name} />
@@ -32,18 +36,28 @@ export function ProgramItem(props: Props) {
       <Text size={14} color={raw.colors.neutral['700']}>
         Блюда в комплекте: {props.mealsPerDay}
       </Text>
+      <Carousel>
+        <Swiper slidesPerView="auto" spaceBetween={5} freeMode>
+          {props.options.map((o, i) => (
+            <SwiperSlide key={i}>
+              <MealsCard title={o.exampleMeal.title} description={o.exampleMeal.description} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </Carousel>
 
-      {props.options.map((o, i) => (
-        <div key={i}>
-          <MealsCard title={o.exampleMeal.title} description={o.exampleMeal.description} />
-        </div>
-      ))}
       <InfoField
         caption={'Войдите по номеру, чтобы увидеть цены'}
         label={'Для 900 кКал, за 1 день питания'}
         suffix={'Цена скрыта'}
       />
-      <Button size={48} variant={'accent/soft'}>
+      <Button
+        onClick={() => {
+          navigate(`/programs-nutrition/${props.id}`)
+        }}
+        size={48}
+        variant={'accent/soft'}
+      >
         Подробнее о программе
       </Button>
     </Wrap>

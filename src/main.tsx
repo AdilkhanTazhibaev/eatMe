@@ -1,3 +1,4 @@
+import DefaultLayout from '@/layouts/DefaultLayout.tsx'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -12,8 +13,10 @@ const routes = createBrowserRouter(bootstrapService.getRoutes())
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={lightTheme}>
-      <App />
-      <RouterProvider router={routes} />
+      <DefaultLayout>
+        <App />
+        <RouterProvider router={routes} />
+      </DefaultLayout>
     </ThemeProvider>
   </StrictMode>,
 )

@@ -26,8 +26,19 @@ export const IconWrap = styled.div<{ $color: number }>`
   display: flex;
 `
 
-export const CardWrapper = styled.div<{ $color: number; $padding: number }>`
+export const CardWrapper = styled.div<{ $color?: number; $padding?: number }>`
   background: ${({ theme, $color }) => theme.raw.colors.neutral[$color]};
   padding: ${({ $padding }) => ($padding ? $padding + 'px' : 16 + 'px')};
   border-radius: 24px;
+`
+export const Carousel = styled.div`
+  min-width: 0;
+
+  .swiper {
+    //width: fit-content;
+  }
+
+  .swiper-slide {
+    //width: fit-content;.
+  }
 `

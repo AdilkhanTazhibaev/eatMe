@@ -1,21 +1,38 @@
 import Shopping from '@/assets/icons/_shopping-bag-02.svg?react'
-import Close from '@/assets/icons/_x-close.svg?react'
+import Arrow from '@/assets/icons/arrow.svg?react'
+import { useHeader } from '@/layouts/DefaultLayout.tsx'
 import { Notice } from '@ui/Notice'
 import Tag from '@ui/Tags'
 import { TopBar } from '@ui/Topbar'
 import Heading from '@ui/typography/Heading.tsx'
 import Text from '@ui/typography/Text.tsx'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 export function ProgramMealDetail() {
-  return (
-    <>
+  const { setHeader } = useHeader()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    setHeader(
       <TopBar
-        left={<Close />}
+        left={
+          <Arrow
+            onClick={() => {
+              navigate(-1)
+            }}
+          />
+        }
         right={<Shopping />}
         title={'Стандарт'}
         caption={'Питание 13 сентября'}
-      />
+      />,
+    )
+    return () => setHeader(null)
+  })
+  return (
+    <>
       <div style={{ padding: 16, display: 'grid', gap: 16 }}>
         <Text size={16}>Запланированные блюда</Text>
         <div style={{ display: 'flex', gap: 5 }}>

@@ -54,7 +54,7 @@ const SearchIcon = styled.div`
   color: #3a3a3b;
 `
 
-export const SearchInput: React.FC<SearchInputProps> = ({ value, onChange, placeholder, icon }) => {
+export function SearchInput({ value, onChange, placeholder, icon }: SearchInputProps) {
   return (
     <SearchInputContainer>
       {icon && <SearchIcon>{icon}</SearchIcon>}

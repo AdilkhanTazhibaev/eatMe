@@ -50,7 +50,6 @@ export function TopBar({
             </CenterText>
           )}
         </Center>
-
         <Side right>
           <IconWrap $color={50}>{right}</IconWrap>
         </Side>

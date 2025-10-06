@@ -1,5 +1,5 @@
-import { Main } from '@/pages/main'
+import 'swiper/css'
 
 export default function App() {
-  return <Main />
+  return null
 }

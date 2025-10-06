@@ -8,13 +8,14 @@ interface Props {
   description: string
   timeRange?: string
   img?: string
-  color: number
+  color?: number
+  onClick?: (event: MouseEvent) => void
 }
 
 export function MealsCard({ color = 50, ...props }: Props) {
   return (
     <>
-      <CardWrapper $color={color} $padding={8}>
+      <CardWrapper onClick={props.onClick} $color={color} $padding={8}>
         <div style={{ display: 'grid', gap: 5, gridTemplateColumns: '1fr 4fr' }}>
           <ImageWrapper />
           <div style={{ display: 'flex', flexDirection: 'column' }}>

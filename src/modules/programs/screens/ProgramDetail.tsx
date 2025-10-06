@@ -1,6 +1,8 @@
 import Shopping from '@/assets/icons/_shopping-bag-02.svg?react'
-import Close from '@/assets/icons/_x-close.svg?react'
+import Arrow from '@/assets/icons/arrow.svg?react'
+
 import { CardWrapper } from '@/components/snippets'
+import { useHeader } from '@/layouts/DefaultLayout.tsx'
 import { MealsCard } from '@/modules/programs/components/MealsCard.tsx'
 import { OtherPrograms } from '@/modules/programs/components/OtherPrograms.tsx'
 import { raw } from '@theme/tokens.ts'
@@ -9,11 +11,32 @@ import Tag from '@ui/Tags'
 import TitleSubtitle from '@ui/TitleSubtitle'
 import { TopBar } from '@ui/Topbar'
 import Text from '@ui/typography/Text.tsx'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export function ProgramDetail() {
+  const { setHeader } = useHeader()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    setHeader(
+      <TopBar
+        left={
+          <Arrow
+            onClick={() => {
+              navigate('/programs-nutrition')
+            }}
+          />
+        }
+        right={<Shopping />}
+        title={'Стандарт'}
+        caption={'Программа'}
+      />,
+    )
+    return () => setHeader(null)
+  })
   return (
     <>
-      <TopBar left={<Close />} right={<Shopping />} title={'Стандарт'} caption={'Программа'} />
       <div style={{ display: 'grid', gap: 16 }}>
         <div
           style={{
@@ -51,6 +74,9 @@ export function ProgramDetail() {
             Завтрак, 06:00 — 10:00
           </Text>
           <MealsCard
+            onClick={() => {
+              navigate(`/programs-nutrition/${12}/info/${4}`)
+            }}
             title={'Макароны по-флотски'}
             description={
               'Макароны по-флотски, ну очень сытное блюдо, приготовлено с использование макарон'
