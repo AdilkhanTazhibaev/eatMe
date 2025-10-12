@@ -58,7 +58,6 @@ export default function DefaultLayout({ children }: Props) {
   return (
     <Shell>
       {header && header}
-
       <HeaderContext.Provider value={headerApi}>
         <FooterContext.Provider value={footerApi}>
           <Main $hasFixed={footerFixed}>{children}</Main>
@@ -80,7 +79,6 @@ const Footer = styled.footer`
   margin-top: auto;
   position: sticky;
   bottom: 0;
-  padding: 12px 16px;
   padding-bottom: calc(12px + env(safe-area-inset-bottom));
   background: linear-gradient(180deg, rgba(243, 244, 246, 0) 0%, #f3f4f6 40%);
 `
@@ -95,24 +93,4 @@ const FixedBar = styled.div`
   padding-bottom: calc(12px + env(safe-area-inset-bottom));
   background: linear-gradient(180deg, rgba(243, 244, 246, 0) 0%, #f3f4f6 60%);
   z-index: 50;
-`
-
-/* ----- ДОБАВИЛ ТОЛЬКО ЭТИ ДВА КОМПОНЕНТА ДЛЯ ХЕДЕРА ----- */
-const HeaderBar = styled.header`
-  position: sticky;
-  top: 0;
-  padding: 12px 16px;
-  background: linear-gradient(180deg, #f3f4f6 70%, rgba(243, 244, 246, 0));
-  z-index: 40;
-`
-
-const FixedHeader = styled.div`
-  position: fixed;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
-  width: min(100%, 360px);
-  padding: 12px 16px;
-  background: #f3f4f6;
-  z-index: 60;
 `

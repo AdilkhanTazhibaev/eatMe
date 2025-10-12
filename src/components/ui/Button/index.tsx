@@ -7,15 +7,18 @@ type Variant =
   | 'accent/soft'
   | 'accent/text'
   | 'neutral/filled'
+  | 'neutral/text'
   | 'neutral/ghost'
   | 'destructive/text'
   | 'destructive/soft'
 
 type Size = 36 | 48 | 56
+type labelSize = 10 | 12 | 14 | 16 | 18
 
 export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
   variant?: Variant
   size?: Size
+  labelSize?: labelSize
   fullWidth?: boolean
   radius?: number
   leading?: React.ReactNode
@@ -169,6 +172,19 @@ const variantCss = (v: Variant, t: ReturnType<typeof getTokens>) => {
           filter: brightness(0.96);
         }
       `
+    case 'neutral/text':
+      return css`
+        background: transparent;
+        color: ${t.n900};
+
+        &:hover {
+          background: ${t.n50};
+        }
+
+        &:active {
+          filter: brightness(0.96);
+        }
+      `
     case 'destructive/text':
       return css`
         background: transparent;
@@ -279,6 +295,7 @@ export function Button({
   size = 56,
   fullWidth = true,
   radius,
+  labelSize = 18,
   leading,
   trailing,
   loading = false,
@@ -301,7 +318,7 @@ export function Button({
       ) : leading ? (
         <Leading>{leading}</Leading>
       ) : null}
-      <Text size={18} weight={'medium'}>
+      <Text size={labelSize} weight={'medium'}>
         {children}
       </Text>
       {trailing && !loading ? <Trailing>{trailing}</Trailing> : null}

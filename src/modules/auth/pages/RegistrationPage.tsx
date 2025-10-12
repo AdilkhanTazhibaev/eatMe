@@ -5,10 +5,10 @@ import {
   RegisterStep,
   useAuthStore,
 } from '@/modules/auth/stores/auth.store.ts'
-import { default as EnterName } from '@/modules/auth/views/EnterName'
-import EnterOtpCode from '@/modules/auth/views/EnterOtpCode.tsx'
-import EnterPhone from '@/modules/auth/views/EnterPhone'
-import EnterSendCode from '@/modules/auth/views/EnterSendCode'
+import { default as EnterName } from '@/modules/auth/screens/EnterName'
+import EnterOtpCode from '@/modules/auth/screens/EnterOtpCode.tsx'
+import EnterPhone from '@/modules/auth/screens/EnterPhone'
+import EnterSendCode from '@/modules/auth/screens/EnterSendCode'
 import { useURLState } from '@/shared/hooks/useURLState'
 import { useEffect, useMemo } from 'react'
 

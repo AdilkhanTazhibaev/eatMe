@@ -29,14 +29,15 @@ const WrapperAction = styled.div<{ $bg: number }>`
   border-radius: 16px;
   display: flex;
 `
-const NavigationLink: React.FC<NavigationLinkProps> = ({
+
+function NavigationLink({
   title,
   caption,
   icon,
   action,
   level = 'h6',
   actionBg = 50,
-}: NavigationLinkProps) => {
+}: NavigationLinkProps) {
   return (
     <>
       <Wrapper>

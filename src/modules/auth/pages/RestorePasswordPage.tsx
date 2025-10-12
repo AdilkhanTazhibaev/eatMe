@@ -1,9 +1,9 @@
 import DefaultLayout from '@/layouts/DefaultLayout.tsx'
+import EnterOtpCode from '@/modules/auth/screens/EnterOtpCode.tsx'
+import EnterPhone from '@/modules/auth/screens/EnterPhone'
+import EnterSendCode from '@/modules/auth/screens/EnterSendCode'
+import WelcomeRestore from '@/modules/auth/screens/restore/WelcomeRestore.tsx'
 import { AuthMode, RestoreStep, useAuthStore } from '@/modules/auth/stores/auth.store.ts'
-import EnterOtpCode from '@/modules/auth/views/EnterOtpCode.tsx'
-import EnterPhone from '@/modules/auth/views/EnterPhone'
-import EnterSendCode from '@/modules/auth/views/EnterSendCode'
-import WelcomeRestore from '@/modules/auth/views/restore/WelcomeRestore.tsx'
 import { useEffect, useMemo } from 'react'
 
 export default function RestorePasswordPage() {

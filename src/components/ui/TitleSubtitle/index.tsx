@@ -13,14 +13,16 @@ export type TitleSubtitleProps = {
   as?: React.ElementType
   onClick?: () => void
   disabled?: boolean
+  reverse?: boolean
   level?: TitleLevel
+  rowGap?: number
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $reverse: boolean; $gap: number }>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({ $reverse }) => ($reverse ? `column-reverse` : 'column')};
   align-items: flex-start;
-  gap: 4px;
+  gap: ${({ $gap }) => `${$gap}px`};
 `
 
 const Row = styled.div`
@@ -55,18 +57,25 @@ const ChevronIcon: React.FC<{ size?: number }> = ({ size = 20 }) => (
   </svg>
 )
 
-export const TitleSubtitle: React.FC<TitleSubtitleProps> = ({
+export function TitleSubtitle({
   title,
   caption,
   chevron,
   onClick,
   disabled,
+  rowGap = 4,
+  reverse = false,
   level = 'h4',
-}) => {
+}: TitleSubtitleProps) {
   const captionColor = '#565658' // neutral.700 → можешь заменить на theme.semantic.text.secondary/tertiary
 
   return (
-    <Wrapper onClick={disabled ? undefined : onClick} aria-disabled={disabled}>
+    <Wrapper
+      $gap={rowGap}
+      $reverse={reverse}
+      onClick={disabled ? undefined : onClick}
+      aria-disabled={disabled}
+    >
       <Row>
         {level === 'subtitle' ? (
           <Text size={14} weight="medium">

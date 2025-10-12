@@ -3,8 +3,8 @@ import en from './locales/en.json'
 import ru from './locales/ru.json'
 import { routes } from './routes'
 
-export const MainModule: ModuleConfig = {
-  name: 'main',
+export const CheckoutModule: ModuleConfig = {
+  name: 'checkout',
   routes: routes,
   locales: {
     en,

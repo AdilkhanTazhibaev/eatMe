@@ -17,3 +17,15 @@ export type Program = {
   options: ProgramOption[]
   priceHidden: boolean
 }
+
+export type ProgramCard = {
+  id: string
+  name: string
+  description: string
+  kcal: number
+  mealsPerDay: number
+  durationDays: number
+  sets: number
+  price: number
+  currency: string
+}

@@ -4,18 +4,22 @@ import { Grid } from '@/components/snippets'
 import { useHeader } from '@/layouts/DefaultLayout.tsx'
 import { BonusCard } from '@/modules/main/components/BonusCard.tsx'
 import { NavigationView } from '@/modules/navigation/views/NavigationView.tsx'
-import { Programs } from '@/modules/programs/views/Programs.tsx'
-import { ProgramsPopular } from '@/modules/programs/views/ProgramsPopular.tsx'
+import { Programs } from '@/modules/programs/components/Programs.tsx'
+import { ProgramsPopular } from '@/modules/programs/components/ProgramsPopular.tsx'
 import Drawer from '@ui/Drawer'
 import { TopBar } from '@ui/Topbar'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export function Main() {
   const { setHeader } = useHeader()
   const [open, setOpen] = useState(false)
+  const navigate = useNavigate()
   useEffect(() => {
     setHeader(
       <TopBar
+        badgeCount={10}
+        badgeVariant={'danger'}
         left={
           <Menu
             onClick={() => {
@@ -23,7 +27,13 @@ export function Main() {
             }}
           ></Menu>
         }
-        right={<Shopping></Shopping>}
+        right={
+          <Shopping
+            onClick={() => {
+              navigate('/carts')
+            }}
+          ></Shopping>
+        }
       />,
     )
     return () => setHeader(null)

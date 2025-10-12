@@ -1,7 +1,10 @@
 import { IconWrap } from '@/components/snippets' // поправь путь
+import BadgeIcon from '@ui/BadgeIcon'
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { Text } from '../typography/Text'
+
+type BadgeVariant = 'default' | 'danger' | 'success' | 'warning' | 'info'
 
 export type TopBarProps = {
   title?: React.ReactNode
@@ -12,6 +15,8 @@ export type TopBarProps = {
   statusBar?: boolean
   rounded?: boolean
   className?: string
+  badgeVariant?: BadgeVariant
+  badgeCount?: number | null
 }
 
 export function TopBar({
@@ -20,7 +25,9 @@ export function TopBar({
   center,
   left,
   right,
+  badgeCount = null,
   statusBar = false,
+  badgeVariant,
   rounded = false,
   className,
 }: TopBarProps) {
@@ -50,9 +57,25 @@ export function TopBar({
             </CenterText>
           )}
         </Center>
-        <Side right>
-          <IconWrap $color={50}>{right}</IconWrap>
-        </Side>
+        {badgeCount ? (
+          <BadgeIcon
+            variant={badgeVariant}
+            count={badgeCount}
+            icon={
+              right && (
+                <Side right>
+                  <IconWrap $color={50}>{right}</IconWrap>
+                </Side>
+              )
+            }
+          ></BadgeIcon>
+        ) : (
+          right && (
+            <Side right>
+              <IconWrap $color={50}>{right}</IconWrap>
+            </Side>
+          )
+        )}
       </Toolbar>
     </Wrap>
   )
