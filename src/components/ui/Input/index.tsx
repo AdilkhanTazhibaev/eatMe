@@ -1,14 +1,17 @@
+import { raw } from '@theme/tokens.ts'
+import Text from '@ui/typography/Text.tsx'
 import React, { useRef, useState } from 'react'
 import styled, { css } from 'styled-components'
 
 interface InputProps {
   type?: 'text' | 'password' | 'email'
   placeholder?: string
+  helpText?: string
   label?: string
   value: string
   onChange: (value: string) => void
   onBlur?: () => void
-  size?: '600-56px'
+  size?: '600-56px' | '500-48px'
   disabled?: boolean
   error?: string
   mask?: string
@@ -25,7 +28,7 @@ const InputContainer = styled.div`
 
 const InputWrapper = styled.div.withConfig({
   shouldForwardProp: (prop) => prop !== 'hasError',
-})<{ hasError: boolean }>`
+})<{ hasError: boolean; size: string }>`
   display: flex;
   align-items: center;
   gap: 8px;
@@ -36,8 +39,23 @@ const InputWrapper = styled.div.withConfig({
   border: 2px solid transparent;
   transition: all 0.2s ease;
   position: relative;
-  height: 56px;
 
+  ${({ size }) => {
+    switch (size) {
+      case '600-56px':
+        return css`
+          height: 56px;
+        `
+      case '500-48px':
+        return css`
+          height: 48px;
+        `
+      default:
+        return css`
+          height: 56px;
+        `
+    }
+  }}
   &:focus-within {
     border-color: #00ab75;
     box-shadow: 0 0 0 3px rgba(210, 238, 229, 1);
@@ -137,6 +155,7 @@ export function Input({
   disabled = false,
   error,
   maxLength,
+  helpText,
   mask,
 }: InputProps) {
   const [showPassword, setShowPassword] = useState(false)
@@ -178,7 +197,7 @@ export function Input({
 
   return (
     <InputContainer>
-      <InputWrapper hasError={!!error}>
+      <InputWrapper size={size} hasError={!!error}>
         {label && (
           <FloatingLabel htmlFor={label} active={isActive} error={!!error}>
             {label}
@@ -248,6 +267,11 @@ export function Input({
         )}
       </InputWrapper>
       {error && <ErrorText>{error}</ErrorText>}
+      {helpText && (
+        <Text size={12} weight={'medium'} color={raw.colors.neutral['800']}>
+          {helpText}
+        </Text>
+      )}
     </InputContainer>
   )
 }

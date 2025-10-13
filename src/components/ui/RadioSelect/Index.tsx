@@ -83,7 +83,6 @@ const Cell = styled.label<{
   display: flex;
   align-items: center;
   gap: ${({ theme }) => t(theme).gap16}px;
-  padding: 4px ${({ theme }) => t(theme).pad16}px;
   min-height: 56px;
   height: ${({ $size }) => $size}px;
   border-radius: ${({ theme, $withWrapper }) => ($withWrapper ? t(theme).radius24 : 0)}px;
@@ -100,6 +99,13 @@ const Cell = styled.label<{
     $disabled &&
     css`
       cursor: not-allowed;
+    `}
+
+  ${({ $withWrapper }) =>
+    $withWrapper &&
+    css`
+      padding-left: 12px;
+      padding-right: 12px;
     `}
 `
 
@@ -166,9 +172,10 @@ export interface RadioItemProps<T extends string | number = string> extends Radi
   onChange: (value: T) => void
   size?: Size
   withWrapper?: boolean
+  controlPosition?: 'left' | 'right'
 }
 
-export const RadioItem = <T extends string | number = string>({
+export function RadioItem({
   name,
   value,
   title,
@@ -180,13 +187,16 @@ export const RadioItem = <T extends string | number = string>({
   size = 64,
   withWrapper,
   disabled,
-}: RadioItemProps<T>) => {
+  controlPosition = 'left',
+}: RadioItemProps) {
   const id = useId()
   return (
     <Cell htmlFor={id} $size={size} $withWrapper={withWrapper} $disabled={disabled}>
-      <Controls>
-        <RadioBox $checked={checked} $disabled={disabled} />
-      </Controls>
+      {controlPosition === 'left' && (
+        <Controls>
+          <RadioBox $checked={checked} $disabled={disabled} />
+        </Controls>
+      )}
 
       {addon && <Addon>{addon}</Addon>}
 
@@ -206,7 +216,11 @@ export const RadioItem = <T extends string | number = string>({
       </TitleWrap>
 
       {trailing && <Trailing>{trailing}</Trailing>}
-
+      {controlPosition === 'right' && (
+        <Controls>
+          <RadioBox $checked={checked} $disabled={disabled} />
+        </Controls>
+      )}
       <HiddenInput
         id={id}
         name={name}
@@ -228,6 +242,7 @@ export interface RadioGroupProps<T extends string | number = string> {
   size?: Size
   withWrapper?: boolean
   direction?: 'column' | 'row'
+  controlPosition?: 'left' | 'right'
 }
 
 const Group = styled.div<{ $gap: number; $dir: 'column' | 'row' }>`
@@ -245,6 +260,7 @@ export function RadioGroup<T extends string | number = string>({
   size = 64,
   withWrapper = false,
   direction = 'column',
+  controlPosition,
 }: RadioGroupProps<T>) {
   return (
     <Group $gap={gap} $dir={direction}>
@@ -260,6 +276,7 @@ export function RadioGroup<T extends string | number = string>({
           disabled={o.disabled}
           checked={o.value === value}
           onChange={onChange}
+          controlPosition={controlPosition}
           size={size}
           withWrapper={withWrapper}
         />

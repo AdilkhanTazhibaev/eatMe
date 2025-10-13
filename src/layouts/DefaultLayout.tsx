@@ -11,19 +11,25 @@ import styled from 'styled-components'
 
 type FooterCtx = { setFooter: (node: ReactNode | null, opts?: { fixed?: boolean }) => void }
 type HeaderCtx = { setHeader: (node: ReactNode | null, opts?: { fixed?: boolean }) => void }
+type BgCtx = { setBg: (bg: string | null) => void }
 
 const FooterContext = createContext<FooterCtx | null>(null)
 const HeaderContext = createContext<HeaderCtx | null>(null)
+const BgContext = createContext<BgCtx | null>(null)
 
 export const useFooter = () => {
   const ctx = useContext(FooterContext)
   if (!ctx) throw new Error('useFooter must be used within <DefaultLayout>')
   return ctx
 }
-
 export const useHeader = () => {
   const ctx = useContext(HeaderContext)
   if (!ctx) throw new Error('useHeader must be used within <DefaultLayout>')
+  return ctx
+}
+export const useLayoutBg = () => {
+  const ctx = useContext(BgContext)
+  if (!ctx) throw new Error('useLayoutBg must be used within <DefaultLayout>')
   return ctx
 }
 
@@ -34,6 +40,7 @@ export default function DefaultLayout({ children }: Props) {
   const [header, setHeaderNode] = useState<ReactNode | null>(null)
   const [footerFixed, setFooterFixed] = useState(false)
   const [headerFixed, setHeaderFixed] = useState(false)
+  const [bg, setBg] = useState<string | null>(null)
 
   const footerApi = useMemo<FooterCtx>(
     () => ({
@@ -55,12 +62,23 @@ export default function DefaultLayout({ children }: Props) {
     [],
   )
 
+  const bgApi = useMemo<BgCtx>(
+    () => ({
+      setBg: (next) => setBg(next),
+    }),
+    [],
+  )
+
   return (
     <Shell>
       {header && header}
       <HeaderContext.Provider value={headerApi}>
         <FooterContext.Provider value={footerApi}>
-          <Main $hasFixed={footerFixed}>{children}</Main>
+          <BgContext.Provider value={bgApi}>
+            <Main $hasFixed={footerFixed} $bg={bg ?? undefined}>
+              {children}
+            </Main>
+          </BgContext.Provider>
         </FooterContext.Provider>
       </HeaderContext.Provider>
 
@@ -69,10 +87,11 @@ export default function DefaultLayout({ children }: Props) {
   )
 }
 
-const Main = styled.main<{ $hasFixed: boolean }>`
+const Main = styled.main<{ $hasFixed: boolean; $bg?: string }>`
   flex: 1;
   padding: 24px 0 0;
   padding-bottom: ${({ $hasFixed }) => ($hasFixed ? '84px' : '0')};
+  background: ${({ $bg }) => $bg ?? 'transparent'};
 `
 
 const Footer = styled.footer`

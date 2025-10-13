@@ -98,11 +98,16 @@ export function TitleSubtitle({
         )}
       </Row>
 
-      {caption && (
-        <Text size={14} weight="regular" color={captionColor}>
-          {caption}
-        </Text>
-      )}
+      {caption &&
+        (level === 'text16' ? (
+          <Text size={12} weight="medium" color={captionColor}>
+            {caption}
+          </Text>
+        ) : (
+          <Text size={14} weight="regular" color={captionColor}>
+            {caption}
+          </Text>
+        ))}
     </Wrapper>
   )
 }
