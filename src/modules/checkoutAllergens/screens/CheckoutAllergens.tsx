@@ -1,7 +1,7 @@
 import ArrowRight from '@/assets/icons/arrow-right.svg?react'
 import Arrow from '@/assets/icons/arrow.svg?react'
 import { Container, Grid, WrapBetween } from '@/components/snippets'
-import { useHeader, useLayoutBg } from '@/layouts/DefaultLayout.tsx'
+import { useHeader, useLayout } from '@/layouts/DefaultLayout.tsx'
 import { raw } from '@theme/tokens.ts'
 import NavigationLink from '@ui/NavigationLink'
 import { TopBar } from '@ui/Topbar'
@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 
 export function CheckoutAllergens() {
   const { setHeader } = useHeader()
-  const { setBg } = useLayoutBg()
+  const { setMainStyle } = useLayout()
   useEffect(() => {
     setHeader(<TopBar left={<Arrow />} title={'Аллергены'} />)
 
@@ -19,10 +19,12 @@ export function CheckoutAllergens() {
     }
   }, [])
   useEffect(() => {
-    setBg(raw.colors.neutral[0])
+    setMainStyle({
+      background: raw.colors.neutral[0],
+    })
 
     return () => {
-      setBg(null)
+      setMainStyle(null)
     }
   }, [])
   return (

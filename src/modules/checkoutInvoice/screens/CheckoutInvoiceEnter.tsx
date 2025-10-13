@@ -1,6 +1,6 @@
 import Arrow from '@/assets/icons/arrow.svg?react'
 import { Container, Grid, WrapBetween } from '@/components/snippets'
-import { useFooter, useHeader, useLayoutBg } from '@/layouts/DefaultLayout.tsx'
+import { useFooter, useHeader, useLayout } from '@/layouts/DefaultLayout.tsx'
 import { raw } from '@theme/tokens.ts'
 import { Button } from '@ui/Button'
 import { Input } from '@ui/Input'
@@ -12,7 +12,7 @@ import { useEffect } from 'react'
 export function CheckoutInvoiceEnter() {
   const { setHeader } = useHeader()
   const { setFooter } = useFooter()
-  const { setBg } = useLayoutBg()
+  const { setMainStyle } = useLayout()
   useEffect(() => {
     setHeader(<TopBar left={<Arrow />} title={'Добавление получателя'} />)
 
@@ -21,7 +21,9 @@ export function CheckoutInvoiceEnter() {
     }
   }, [])
   useEffect(() => {
-    setBg(raw.colors.neutral[0])
+    setMainStyle({
+      background: raw.colors.neutral[0],
+    })
 
     return () => {
       setBg(null)

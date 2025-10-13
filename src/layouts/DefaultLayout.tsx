@@ -1,21 +1,39 @@
 import { Shell } from '@/components/snippets'
-import {
+import React, {
   createContext,
   type PropsWithChildren,
   type ReactNode,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react'
 import styled from 'styled-components'
 
+/* ---------- типы контекстов ---------- */
+
 type FooterCtx = { setFooter: (node: ReactNode | null, opts?: { fixed?: boolean }) => void }
 type HeaderCtx = { setHeader: (node: ReactNode | null, opts?: { fixed?: boolean }) => void }
-type BgCtx = { setBg: (bg: string | null) => void }
+
+type LayoutStyleCtx = {
+  /** перезаписать стили полностью (null = сброс) */
+  setShellStyle: (s: React.CSSProperties | null) => void
+  setMainStyle: (s: React.CSSProperties | null) => void
+  setFooterStyle: (s: React.CSSProperties | null) => void
+  setFixedBarStyle: (s: React.CSSProperties | null) => void
+
+  /** частично обновить (merge) */
+  patchShellStyle: (s: React.CSSProperties) => void
+  patchMainStyle: (s: React.CSSProperties) => void
+  patchFooterStyle: (s: React.CSSProperties) => void
+  patchFixedBarStyle: (s: React.CSSProperties) => void
+}
 
 const FooterContext = createContext<FooterCtx | null>(null)
 const HeaderContext = createContext<HeaderCtx | null>(null)
-const BgContext = createContext<BgCtx | null>(null)
+const LayoutStyleContext = createContext<LayoutStyleCtx | null>(null)
+
+/* ---------- хуки ---------- */
 
 export const useFooter = () => {
   const ctx = useContext(FooterContext)
@@ -27,20 +45,39 @@ export const useHeader = () => {
   if (!ctx) throw new Error('useHeader must be used within <DefaultLayout>')
   return ctx
 }
-export const useLayoutBg = () => {
-  const ctx = useContext(BgContext)
-  if (!ctx) throw new Error('useLayoutBg must be used within <DefaultLayout>')
+export const useLayout = () => {
+  const ctx = useContext(LayoutStyleContext)
+  if (!ctx) throw new Error('useLayout must be used within <DefaultLayout>')
   return ctx
+}
+
+/** удобный хелпер: навесил стили при монтировании — и аккуратно снял при размонтировании */
+export const useLayoutEffectOnce = (fn: (api: LayoutStyleCtx) => (() => void) | void) => {
+  const api = useLayout()
+  useEffect(() => {
+    const cleanup = fn(api)
+    return () => {
+      if (typeof cleanup === 'function') cleanup()
+    }
+    // намеренно без зависимостей — однократно на монт
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 }
 
 type Props = PropsWithChildren
 
 export default function DefaultLayout({ children }: Props) {
+  // nodes
   const [footer, setFooterNode] = useState<ReactNode | null>(null)
   const [header, setHeaderNode] = useState<ReactNode | null>(null)
+  // flags
   const [footerFixed, setFooterFixed] = useState(false)
   const [headerFixed, setHeaderFixed] = useState(false)
-  const [bg, setBg] = useState<string | null>(null)
+  // styles
+  const [shellStyle, setShellStyle] = useState<React.CSSProperties | undefined>()
+  const [mainStyle, setMainStyle] = useState<React.CSSProperties | undefined>()
+  const [footerStyle, setFooterStyle] = useState<React.CSSProperties | undefined>()
+  const [fixedBarStyle, setFixedBarStyle] = useState<React.CSSProperties | undefined>()
 
   const footerApi = useMemo<FooterCtx>(
     () => ({
@@ -62,44 +99,62 @@ export default function DefaultLayout({ children }: Props) {
     [],
   )
 
-  const bgApi = useMemo<BgCtx>(
+  const styleApi = useMemo<LayoutStyleCtx>(
     () => ({
-      setBg: (next) => setBg(next),
+      setShellStyle: (s) => setShellStyle(s ?? undefined),
+      setMainStyle: (s) => setMainStyle(s ?? undefined),
+      setFooterStyle: (s) => setFooterStyle(s ?? undefined),
+      setFixedBarStyle: (s) => setFixedBarStyle(s ?? undefined),
+
+      patchShellStyle: (s) => setShellStyle((prev) => ({ ...(prev ?? {}), ...s })),
+      patchMainStyle: (s) => setMainStyle((prev) => ({ ...(prev ?? {}), ...s })),
+      patchFooterStyle: (s) => setFooterStyle((prev) => ({ ...(prev ?? {}), ...s })),
+      patchFixedBarStyle: (s) => setFixedBarStyle((prev) => ({ ...(prev ?? {}), ...s })),
     }),
     [],
   )
 
   return (
-    <Shell>
+    <Shell style={shellStyle}>
+      {/* если шапка нужна над провайдерами — оставляем как есть */}
       {header && header}
+
       <HeaderContext.Provider value={headerApi}>
         <FooterContext.Provider value={footerApi}>
-          <BgContext.Provider value={bgApi}>
-            <Main $hasFixed={footerFixed} $bg={bg ?? undefined}>
+          <LayoutStyleContext.Provider value={styleApi}>
+            <Main
+              $hasFixed={footerFixed}
+              style={mainStyle} // ← любые inline стили для Main
+            >
               {children}
             </Main>
-          </BgContext.Provider>
+          </LayoutStyleContext.Provider>
         </FooterContext.Provider>
       </HeaderContext.Provider>
 
-      {footer && (footerFixed ? <FixedBar>{footer}</FixedBar> : <Footer>{footer}</Footer>)}
+      {footer &&
+        (footerFixed ? (
+          <FixedBar style={fixedBarStyle}>{footer}</FixedBar>
+        ) : (
+          <Footer style={footerStyle}>{footer}</Footer>
+        ))}
     </Shell>
   )
 }
 
-const Main = styled.main<{ $hasFixed: boolean; $bg?: string }>`
+/* ---------- styled ---------- */
+
+const Main = styled.main<{ $hasFixed: boolean }>`
   flex: 1;
   padding: 24px 0 0;
   padding-bottom: ${({ $hasFixed }) => ($hasFixed ? '84px' : '0')};
-  background: ${({ $bg }) => $bg ?? 'transparent'};
+  /* фоновый и пр. теперь лучше задавать через useLayout().setMainStyle({ background: ... }) */
 `
 
 const Footer = styled.footer`
   margin-top: auto;
   position: sticky;
   bottom: 0;
-  padding-bottom: calc(12px + env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, rgba(243, 244, 246, 0) 0%, #f3f4f6 40%);
 `
 
 const FixedBar = styled.div`
@@ -110,6 +165,5 @@ const FixedBar = styled.div`
   width: min(100%, 360px);
   padding: 12px 16px;
   padding-bottom: calc(12px + env(safe-area-inset-bottom));
-  background: linear-gradient(180deg, rgba(243, 244, 246, 0) 0%, #f3f4f6 60%);
   z-index: 50;
 `

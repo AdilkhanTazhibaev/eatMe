@@ -9,6 +9,7 @@ import { CartsModule } from '@/modules/сarts'
 import { BootstrapService } from '../services/bootstrapService.ts'
 import { AuthModule } from './auth'
 import { OnboardingModule } from './onboarding'
+import { DeliveryModule } from '@/modules/comments'
 
 export const bootstrapService = new BootstrapService()
 bootstrapService.register(MainModule)
@@ -21,3 +22,4 @@ bootstrapService.register(CheckoutModule)
 bootstrapService.register(CheckoutAllergensModule)
 bootstrapService.register(CheckoutInvoiceModule)
 bootstrapService.register(AddressModule)
+bootstrapService.register(DeliveryModule)
