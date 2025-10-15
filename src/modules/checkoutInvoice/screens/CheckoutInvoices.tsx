@@ -1,34 +1,20 @@
-import Arrow from '@/assets/icons/arrow.svg?react'
 import Edit from '@/assets/icons/edit-02.svg?react'
 import User from '@/assets/icons/image-user-plus.svg?react'
 import { Container, Grid, WrapBetween } from '@/components/snippets'
-import { useHeader, useLayout } from '@/layouts/DefaultLayout.tsx'
+import { useScreenLayout } from '@/shared/hooks/useScreenLayout.tsx'
+import { BackTopBar } from '@/shared/topbar/BackTopBar.tsx'
 import { raw } from '@theme/tokens.ts'
 import { Button } from '@ui/Button'
 import { RadioGroup } from '@ui/RadioSelect'
-import { TopBar } from '@ui/Topbar'
 import Heading from '@ui/typography/Heading.tsx'
-import { useEffect } from 'react'
 
 export function CheckoutInvoices() {
-  const { setHeader } = useHeader()
-  const { setMainStyle } = useLayout()
-  useEffect(() => {
-    setHeader(<TopBar left={<Arrow />} title={'Получатели'} />)
-
-    return () => {
-      setHeader(null)
-    }
-  }, [])
-  useEffect(() => {
-    setMainStyle({
+  useScreenLayout({
+    header: <BackTopBar title={'Получатели'} />,
+    mainStyle: {
       background: raw.colors.neutral[0],
-    })
-
-    return () => {
-      setMainStyle(null)
-    }
-  }, [])
+    },
+  })
   return (
     <>
       <Container $bg={0}>

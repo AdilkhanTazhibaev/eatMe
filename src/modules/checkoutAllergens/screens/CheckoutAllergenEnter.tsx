@@ -1,32 +1,18 @@
-import Arrow from '@/assets/icons/arrow.svg?react'
 import { Container, Grid, WrapBetween } from '@/components/snippets'
-import { useHeader, useLayout } from '@/layouts/DefaultLayout.tsx'
+import { useScreenLayout } from '@/shared/hooks/useScreenLayout.tsx'
+import { BackTopBar } from '@/shared/topbar/BackTopBar.tsx'
 import { raw } from '@theme/tokens.ts'
 import { Input } from '@ui/Input'
 import TitleSubtitle from '@ui/TitleSubtitle'
-import { TopBar } from '@ui/Topbar'
 import Text from '@ui/typography/Text.tsx'
-import { useEffect } from 'react'
 
 export function CheckoutAllergenEnter() {
-  const { setHeader } = useHeader()
-  const { setMainStyle } = useLayout()
-  useEffect(() => {
-    setHeader(<TopBar left={<Arrow />} title={'Аллергены'} />)
-
-    return () => {
-      setHeader(null)
-    }
-  }, [])
-  useEffect(() => {
-    setMainStyle({
+  useScreenLayout({
+    header: <BackTopBar title={'Аллергены'} />,
+    mainStyle: {
       background: raw.colors.neutral[0],
-    })
-
-    return () => {
-      setMainStyle(null)
-    }
-  }, [])
+    },
+  })
   return (
     <>
       <Container $bg={0}>

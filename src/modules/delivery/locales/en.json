@@ -1,0 +1,34 @@
+{
+  "onboarding": {
+    "selectCity": {
+      "title": "Select your city"
+    },
+    "selectLanguage": {
+      "title": "Choose language"
+    },
+    "enterPhone": {
+      "title": "Enter your mobile number",
+      "placeholder": "+7 700 000 00 00"
+    },
+    "verify": {
+      "title": "Enter the code",
+      "placeholder": "One-time code"
+    }
+  },
+  "languages": {
+    "kk": "Kazakh",
+    "ru": "Russian",
+    "en": "English"
+  },
+  "actions": {
+    "loginOrRegister": "Sign in or register",
+    "continueAsGuest": "Continue as guest",
+    "confirm": "Confirm",
+    "resendCode": "Resend code",
+    "resendIn": "Resend in {{s}}s"
+  },
+  "errors": {
+    "required": "Required field",
+    "phone": "Invalid phone number"
+  }
+}

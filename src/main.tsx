@@ -3,20 +3,24 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
-import App from './App.tsx'
+import 'swiper/css'
 import './index.css'
 import { bootstrapService } from './modules'
 import { lightTheme } from './theme'
 
-const routes = createBrowserRouter(bootstrapService.getRoutes())
-
+const router = createBrowserRouter([
+  {
+    element: <DefaultLayout />, // Лэйаут — родитель
+    children: [
+      ...bootstrapService.getRoutes(), // страницы
+      { path: '*', element: <div>Not found</div> },
+    ],
+  },
+])
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={lightTheme}>
-      <DefaultLayout>
-        <App />
-        <RouterProvider router={routes} />
-      </DefaultLayout>
+      <RouterProvider router={router} />
     </ThemeProvider>
   </StrictMode>,
 )

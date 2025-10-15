@@ -1,10 +1,12 @@
 import { IconWrap } from '@/components/snippets' // поправь путь
 import BadgeIcon from '@ui/BadgeIcon'
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled, { css, type FlattenSimpleInterpolation } from 'styled-components'
 import { Text } from '../typography/Text'
 
 type BadgeVariant = 'default' | 'danger' | 'success' | 'warning' | 'info'
+
+type Size = 48 | 80
 
 export type TopBarProps = {
   title?: React.ReactNode
@@ -13,6 +15,8 @@ export type TopBarProps = {
   left?: React.ReactNode
   right?: React.ReactNode
   statusBar?: boolean
+  noWrap?: boolean
+  size?: Size
   rounded?: boolean
   className?: string
   badgeVariant?: BadgeVariant
@@ -28,16 +32,21 @@ export function TopBar({
   badgeCount = null,
   statusBar = false,
   badgeVariant,
+  noWrap = true,
+  size = 80,
   rounded = false,
   className,
 }: TopBarProps) {
   return (
-    <Wrap className={className} $rounded={rounded} data-statusbar={statusBar || undefined}>
+    <Wrap
+      $size={size}
+      className={className}
+      $rounded={rounded}
+      data-statusbar={statusBar || undefined}
+    >
       {statusBar && <StatusBar />}
       <Toolbar>
-        <Side>
-          <IconWrap $color={50}>{left}</IconWrap>
-        </Side>
+        <Side>{noWrap ? <IconWrap $color={50}>{left}</IconWrap> : left}</Side>
 
         <Center>
           {center ? (
@@ -70,19 +79,24 @@ export function TopBar({
             }
           ></BadgeIcon>
         ) : (
-          right && (
-            <Side right>
-              <IconWrap $color={50}>{right}</IconWrap>
-            </Side>
-          )
+          right && <Side right>{noWrap ? <IconWrap $color={50}>{right}</IconWrap> : right}</Side>
         )}
       </Toolbar>
     </Wrap>
   )
 }
 
+const sizeTokens: Record<Size, { minHeight: number; padding: string }> = {
+  48: { minHeight: 48, padding: '0 16px' },
+  80: { minHeight: 64, padding: '16px' },
+}
+
+const sizeStyles = ($size: Size = 48): FlattenSimpleInterpolation => css`
+  min-height: ${sizeTokens[$size].minHeight}px;
+  padding: ${sizeTokens[$size].padding};
+`
+
 export type IconButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  /** по макету 32×32 */
   square?: boolean
 }
 
@@ -105,12 +119,10 @@ export const IconButton = styled.button<IconButtonProps>`
   }
 `
 
-const Wrap = styled.header<{ $rounded: boolean }>`
+const Wrap = styled.header<{ $rounded: boolean; $size?: Size }>`
   background: #fff;
-  padding: 16px;
-  border-bottom-right-radius: 20px;
-  border-bottom-left-radius: 20px;
 
+  ${({ $size }) => sizeStyles($size ?? 56)}
   ${({ $rounded }) =>
     $rounded &&
     css`

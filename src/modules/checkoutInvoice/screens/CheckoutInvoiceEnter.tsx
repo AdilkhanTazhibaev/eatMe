@@ -1,42 +1,24 @@
-import Arrow from '@/assets/icons/arrow.svg?react'
 import { Container, Grid, WrapBetween } from '@/components/snippets'
-import { useFooter, useHeader, useLayout } from '@/layouts/DefaultLayout.tsx'
+import { useScreenLayout } from '@/shared/hooks/useScreenLayout.tsx'
+import { BackTopBar } from '@/shared/topbar/BackTopBar.tsx'
 import { raw } from '@theme/tokens.ts'
 import { Button } from '@ui/Button'
 import { Input } from '@ui/Input'
 import TitleSubtitle from '@ui/TitleSubtitle'
-import { TopBar } from '@ui/Topbar'
 import Text from '@ui/typography/Text.tsx'
-import { useEffect } from 'react'
 
 export function CheckoutInvoiceEnter() {
-  const { setHeader } = useHeader()
-  const { setFooter } = useFooter()
-  const { setMainStyle } = useLayout()
-  useEffect(() => {
-    setHeader(<TopBar left={<Arrow />} title={'Добавление получателя'} />)
-
-    return () => {
-      setHeader(null)
-    }
-  }, [])
-  useEffect(() => {
-    setMainStyle({
+  useScreenLayout({
+    header: <BackTopBar title={'Добавление получателя'} />,
+    mainStyle: {
       background: raw.colors.neutral[0],
-    })
-
-    return () => {
-      setBg(null)
-    }
-  }, [])
-  useEffect(() => {
-    setFooter(
+    },
+    footer: (
       <WrapBetween>
         <Button>Сохранить получателя</Button>
-      </WrapBetween>,
-    )
-    return () => setFooter(null)
-  }, [])
+      </WrapBetween>
+    ),
+  })
   return (
     <>
       <Container $bg={0}>

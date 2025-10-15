@@ -1,33 +1,26 @@
-import Arrow from '@/assets/icons/arrow.svg?react'
 import CardPay from '@/assets/icons/card-pay.svg?react'
 import Chevron from '@/assets/icons/chevron.svg?react'
 import Kaspi from '@/assets/icons/kaspi.kz.svg?react'
 import { CardWrapper, Grid, Rail } from '@/components/snippets'
-import { useHeader } from '@/layouts/DefaultLayout.tsx'
 import { programCards } from '@/mocks.ts'
 import { CheckoutCard } from '@/modules/checkout/components/CheckoutCard.tsx'
+import { useScreenLayout } from '@/shared/hooks/useScreenLayout.tsx'
+import { BackTopBar } from '@/shared/topbar/BackTopBar.tsx'
 import { Button } from '@ui/Button'
 import Divider from '@ui/Divider'
 import { InfoField } from '@ui/InfoField'
 import NavigationLink from '@ui/NavigationLink'
 import { RadioGroup } from '@ui/RadioSelect'
 import TitleSubtitle from '@ui/TitleSubtitle'
-import { TopBar } from '@ui/Topbar'
 import Heading from '@ui/typography/Heading.tsx'
-import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 export function Checkout() {
-  const { setHeader } = useHeader()
-
-  useEffect(() => {
-    setHeader(<TopBar left={<Arrow />} title={'Оформление заказа'} />)
-
-    return () => {
-      setHeader(null)
-    }
-  }, [])
-
+  useScreenLayout({
+    header: <BackTopBar title={'Оформление заказа'} />,
+  })
+  const navigate = useNavigate()
   return (
     <Grid $gap={16}>
       <Rail>
@@ -46,7 +39,13 @@ export function Checkout() {
               title={'Аллергены'}
               actionPadding={0}
               variant="card"
-              action={<Chevron />}
+              action={
+                <Chevron
+                  onClick={() => {
+                    navigate('/checkout/allergens')
+                  }}
+                />
+              }
               caption={
                 'Вы можете указать аллергены, чтобы мы исключили их в процессе приготовления'
               }
@@ -62,7 +61,13 @@ export function Checkout() {
             title={'Получатель'}
             caption={'Добавьте данные получателя заказа'}
           />
-          <Button size={48} variant={'neutral/filled'}>
+          <Button
+            onClick={() => {
+              navigate('/checkout/invoices')
+            }}
+            size={48}
+            variant={'neutral/filled'}
+          >
             Добавить получателя
           </Button>
         </Grid>
@@ -74,9 +79,82 @@ export function Checkout() {
             title={'Адрес доставки и детали'}
             caption={'Укажите адрес доставки'}
           />
-          <Button size={48} variant={'neutral/filled'}>
+          <Button
+            onClick={() => {
+              navigate('/address')
+            }}
+            size={48}
+            variant={'neutral/filled'}
+          >
             Добавить адрес доставки
           </Button>
+          <CardWrapper $color={100}>
+            <Grid $gap={8}>
+              <div
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              >
+                <TitleSubtitle
+                  level={'text16'}
+                  reverse={true}
+                  title={'Завтра, 18 сентября'}
+                  caption={'Дата первой доставки'}
+                />
+                <Chevron
+                  onClick={() => {
+                    navigate('/address/details/edit')
+                  }}
+                />
+              </div>
+              <Divider />
+              <div
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              >
+                <TitleSubtitle
+                  level={'text16'}
+                  reverse={true}
+                  title={'Утром, 07:00 - 10:00'}
+                  caption={'Время ежедневной доставки'}
+                />
+                <Chevron
+                  onClick={() => {
+                    navigate('/delivery/set-date')
+                  }}
+                />
+              </div>
+              <Divider />
+              <div
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              >
+                <TitleSubtitle
+                  level={'text16'}
+                  reverse={true}
+                  title={'Добавьте, если нужно'}
+                  caption={'Комментарий для курьера'}
+                />
+                <Chevron
+                  onClick={() => {
+                    navigate('/comment')
+                  }}
+                />
+              </div>
+              <Divider />
+              <div
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              >
+                <TitleSubtitle
+                  level={'text16'}
+                  reverse={true}
+                  title={'Можно исключить до 3-х дней в неделе, если нужно'}
+                  caption={'Не привозить в выбранные дни'}
+                />
+                <Chevron
+                  onClick={() => {
+                    navigate('/delivery/set-skip-days')
+                  }}
+                />
+              </div>
+            </Grid>
+          </CardWrapper>
         </Grid>
       </CardWrapper>
       <CardWrapper $padding={16} $color={0}>
@@ -85,7 +163,13 @@ export function Checkout() {
           variant={'simple'}
           actionPadding={0}
           actionBg={0}
-          action={<Chevron />}
+          action={
+            <Chevron
+              onClick={() => {
+                navigate('/promocodes')
+              }}
+            />
+          }
           caption={'Введите, чтобы применить'}
           level={'h6'}
         />

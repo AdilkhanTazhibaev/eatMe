@@ -1,35 +1,23 @@
 import Shopping from '@/assets/icons/_shopping-bag-02.svg?react'
 import ShoppingOutlined from '@/assets/icons/_shopping-bag-outlined.svg?react'
-import Arrow from '@/assets/icons/arrow.svg?react'
 
 import { CardWrapper, FlexWrap, Grid, IconContent, WrapBetween } from '@/components/snippets'
-import { useFooter, useHeader } from '@/layouts/DefaultLayout.tsx'
+import { useScreenLayout } from '@/shared/hooks/useScreenLayout.tsx'
+import { BackTopBar } from '@/shared/topbar/BackTopBar.tsx'
+import { raw } from '@theme/tokens.ts'
 import { Button } from '@ui/Button'
 import { InfoField } from '@ui/InfoField'
 import InputButton from '@ui/InputButton'
 import InputSlider from '@ui/InputSlider'
 import { Notice } from '@ui/Notice'
 import TitleSubtitle from '@ui/TitleSubtitle'
-import { TopBar } from '@ui/Topbar'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export function NutritionPricingScreen() {
-  const { setHeader } = useHeader()
-  const { setFooter } = useFooter()
-
-  useEffect(() => {
-    setHeader(<TopBar left={<Arrow />} title={'Расчет стоимости питания'} right={<Shopping />} />)
-
-    return () => {
-      setHeader(null)
-    }
-  }, [])
-  const [kits, setKits] = useState(1)
-  const [days, setDays] = useState(1)
-
-  useEffect(() => {
-    setFooter(
-      <CardWrapper $padding={1} $color={100}>
+  useScreenLayout({
+    header: <BackTopBar title={'Дата первой доставки'} right={<Shopping />} />,
+    footer: (
+      <CardWrapper $padding={1} $color={0}>
         <Grid $gap={10} style={{ padding: 8 }}>
           <InfoField
             size={'h5'}
@@ -38,10 +26,15 @@ export function NutritionPricingScreen() {
           />
           <Button leading={<ShoppingOutlined />}>Добавить в корзину</Button>
         </Grid>
-      </CardWrapper>,
-    )
-    return () => setFooter(null)
-  }, [])
+      </CardWrapper>
+    ),
+    mainStyle: { background: raw.colors.neutral[0] },
+    footerStyle: { background: raw.colors.neutral[0] },
+  })
+
+  const [kits, setKits] = useState(1)
+  const [days, setDays] = useState(1)
+
   return (
     <WrapBetween>
       <Grid $gap={16}>

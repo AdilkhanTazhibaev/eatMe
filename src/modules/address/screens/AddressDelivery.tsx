@@ -1,39 +1,22 @@
-import Arrow from '@/assets/icons/arrow.svg?react'
 import { Container, Grid } from '@/components/snippets'
-import { useFooter, useHeader, useLayout } from '@/layouts/DefaultLayout.tsx'
+import { useScreenLayout } from '@/shared/hooks/useScreenLayout.tsx'
 import YandexMap from '@/shared/maps/YandexMap.tsx'
+import { BackTopBar } from '@/shared/topbar/BackTopBar.tsx'
 import { raw } from '@theme/tokens.ts'
 import { Button } from '@ui/Button'
 import { Input } from '@ui/Input'
-import { TopBar } from '@ui/Topbar'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export function AddressDelivery() {
-  const { setHeader } = useHeader()
-  const { setFooter } = useFooter()
-  const { setMainStyle } = useLayout()
-  const [point, setPoint] = useState<[number, number] | null>(null)
-  const handleClick = useCallback((coords: [number, number]) => setPoint(coords), [])
-  useEffect(() => {
-    setHeader(<TopBar left={<Arrow />} title={'Добавление адреса доставки'} />)
-
-    return () => {
-      setHeader(null)
-    }
-  }, [])
-
-  useEffect(() => {
-    setMainStyle({
+  const navigate = useNavigate()
+  useScreenLayout({
+    header: <BackTopBar title={'Добавление адреса доставки'} />,
+    mainStyle: {
       background: raw.colors.neutral[0],
       padding: 0,
-    })
-
-    return () => {
-      setMainStyle(null)
-    }
-  }, [])
-  useEffect(() => {
-    setFooter(
+    },
+    footer: (
       <>
         <Container
           style={{
@@ -43,16 +26,20 @@ export function AddressDelivery() {
         >
           <Grid $gap={8}>
             <Input size={'500-48px'} value={'Проспект Аль-Фараби, 41/6'} />
-            <Button>Подтвердить и продолжить</Button>
+            <Button
+              onClick={() => {
+                navigate('/address/details/edit')
+              }}
+            >
+              Подтвердить и продолжить
+            </Button>
           </Grid>
         </Container>
-      </>,
-    )
-
-    return () => {
-      setFooter(null)
-    }
-  }, [])
+      </>
+    ),
+  })
+  const [point, setPoint] = useState<[number, number] | null>(null)
+  const handleClick = useCallback((coords: [number, number]) => setPoint(coords), [])
 
   return (
     <>
@@ -61,7 +48,7 @@ export function AddressDelivery() {
         zoom={point ? 15 : 12}
         markers={point ? [{ id: 'picked', coords: point, hint: 'Вы выбрали точку' }] : []}
         onClickMap={handleClick}
-        height={550}
+        height={400}
       />
     </>
   )

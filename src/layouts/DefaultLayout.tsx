@@ -1,3 +1,4 @@
+// layouts/DefaultLayout.tsx
 import { Shell } from '@/components/snippets'
 import React, {
   createContext,
@@ -8,6 +9,7 @@ import React, {
   useMemo,
   useState,
 } from 'react'
+import { Outlet, useInRouterContext } from 'react-router-dom'
 import styled from 'styled-components'
 
 /* ---------- типы контекстов ---------- */
@@ -16,13 +18,10 @@ type FooterCtx = { setFooter: (node: ReactNode | null, opts?: { fixed?: boolean 
 type HeaderCtx = { setHeader: (node: ReactNode | null, opts?: { fixed?: boolean }) => void }
 
 type LayoutStyleCtx = {
-  /** перезаписать стили полностью (null = сброс) */
   setShellStyle: (s: React.CSSProperties | null) => void
   setMainStyle: (s: React.CSSProperties | null) => void
   setFooterStyle: (s: React.CSSProperties | null) => void
   setFixedBarStyle: (s: React.CSSProperties | null) => void
-
-  /** частично обновить (merge) */
   patchShellStyle: (s: React.CSSProperties) => void
   patchMainStyle: (s: React.CSSProperties) => void
   patchFooterStyle: (s: React.CSSProperties) => void
@@ -59,7 +58,6 @@ export const useLayoutEffectOnce = (fn: (api: LayoutStyleCtx) => (() => void) | 
     return () => {
       if (typeof cleanup === 'function') cleanup()
     }
-    // намеренно без зависимостей — однократно на монт
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }
@@ -67,6 +65,8 @@ export const useLayoutEffectOnce = (fn: (api: LayoutStyleCtx) => (() => void) | 
 type Props = PropsWithChildren
 
 export default function DefaultLayout({ children }: Props) {
+  const inRouter = useInRouterContext()
+
   // nodes
   const [footer, setFooterNode] = useState<ReactNode | null>(null)
   const [header, setHeaderNode] = useState<ReactNode | null>(null)
@@ -105,7 +105,6 @@ export default function DefaultLayout({ children }: Props) {
       setMainStyle: (s) => setMainStyle(s ?? undefined),
       setFooterStyle: (s) => setFooterStyle(s ?? undefined),
       setFixedBarStyle: (s) => setFixedBarStyle(s ?? undefined),
-
       patchShellStyle: (s) => setShellStyle((prev) => ({ ...(prev ?? {}), ...s })),
       patchMainStyle: (s) => setMainStyle((prev) => ({ ...(prev ?? {}), ...s })),
       patchFooterStyle: (s) => setFooterStyle((prev) => ({ ...(prev ?? {}), ...s })),
@@ -116,17 +115,15 @@ export default function DefaultLayout({ children }: Props) {
 
   return (
     <Shell style={shellStyle}>
-      {/* если шапка нужна над провайдерами — оставляем как есть */}
+      {/* Header-узел (может быть фиксированным, если так решишь) */}
       {header && header}
 
       <HeaderContext.Provider value={headerApi}>
         <FooterContext.Provider value={footerApi}>
           <LayoutStyleContext.Provider value={styleApi}>
-            <Main
-              $hasFixed={footerFixed}
-              style={mainStyle} // ← любые inline стили для Main
-            >
-              {children}
+            <Main $hasFixed={footerFixed} $headerFixed={headerFixed} style={mainStyle}>
+              {/* если мы под Router — рендерим страницы через <Outlet />, иначе — через children */}
+              {inRouter ? <Outlet /> : children}
             </Main>
           </LayoutStyleContext.Provider>
         </FooterContext.Provider>
@@ -144,11 +141,10 @@ export default function DefaultLayout({ children }: Props) {
 
 /* ---------- styled ---------- */
 
-const Main = styled.main<{ $hasFixed: boolean }>`
+const Main = styled.main<{ $hasFixed: boolean; $headerFixed: boolean }>`
   flex: 1;
   padding: 24px 0 0;
   padding-bottom: ${({ $hasFixed }) => ($hasFixed ? '84px' : '0')};
-  /* фоновый и пр. теперь лучше задавать через useLayout().setMainStyle({ background: ... }) */
 `
 
 const Footer = styled.footer`

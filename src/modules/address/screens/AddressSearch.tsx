@@ -1,49 +1,27 @@
-import Arrow from '@/assets/icons/arrow.svg?react'
 import { Container, WrapBetween } from '@/components/snippets'
-import { useFooter, useHeader, useLayout } from '@/layouts/DefaultLayout.tsx'
+import { useScreenLayout } from '@/shared/hooks/useScreenLayout.tsx'
+import { BackTopBar } from '@/shared/topbar/BackTopBar.tsx'
 import { raw } from '@theme/tokens.ts'
 import { Button } from '@ui/Button'
 import { Input } from '@ui/Input'
-import { TopBar } from '@ui/Topbar'
-import { useEffect } from 'react'
 
 export function AddressSearch() {
-  const { setHeader } = useHeader()
-  const { setFooter } = useFooter()
-  const { setMainStyle, setFooterStyle } = useLayout()
-
-  useEffect(() => {
-    setHeader(<TopBar left={<Arrow />} title={'Поиск по адресам'} caption={'Алматы'} />)
-
-    return () => {
-      setHeader(null)
-    }
-  }, [])
-  useEffect(() => {
-    setMainStyle({
+  useScreenLayout({
+    header: <BackTopBar title={'Поиск по адресам'} caption={'Алматы'} />,
+    mainStyle: {
       background: raw.colors.neutral[0],
-    })
-    setFooterStyle({
+    },
+    footerStyle: {
       paddingBottom: 8,
       background: raw.colors.neutral[0],
-    })
-
-    return () => {
-      setMainStyle(null)
-      setFooterStyle(null)
-    }
-  }, [])
-  useEffect(() => {
-    setFooter(
+    },
+    footer: (
       <WrapBetween>
         <Button>Сохранить</Button>
-      </WrapBetween>,
-    )
+      </WrapBetween>
+    ),
+  })
 
-    return () => {
-      setFooter(null)
-    }
-  }, [])
   return (
     <>
       <Container $bg={0}>

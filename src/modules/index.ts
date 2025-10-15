@@ -2,7 +2,8 @@ import { AddressModule } from '@/modules/address'
 import { CheckoutModule } from '@/modules/checkout'
 import { CheckoutAllergensModule } from '@/modules/checkoutAllergens'
 import { CheckoutInvoiceModule } from '@/modules/checkoutInvoice'
-import { DeliveryModule } from '@/modules/comments'
+import { CommentModule } from '@/modules/comments'
+import { DeliveryModule } from '@/modules/delivery'
 import { MainModule } from '@/modules/main'
 import { NutritionPricingModule } from '@/modules/nutritionPricing'
 import { ProgramsModule } from '@/modules/programs'
@@ -23,5 +24,6 @@ bootstrapService.register(CheckoutModule)
 bootstrapService.register(CheckoutAllergensModule)
 bootstrapService.register(CheckoutInvoiceModule)
 bootstrapService.register(AddressModule)
-bootstrapService.register(DeliveryModule)
+bootstrapService.register(CommentModule)
 bootstrapService.register(PromocodeModule)
+bootstrapService.register(DeliveryModule)

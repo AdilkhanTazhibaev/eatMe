@@ -1,27 +1,20 @@
 import Plus from '@/assets/icons/_plus-circle.svg?react'
 import Trash from '@/assets/icons/_trash-03.svg?react'
-import Arrow from '@/assets/icons/arrow.svg?react'
 import { Grid, Wrap, WrapBetween } from '@/components/snippets'
-import { useHeader } from '@/layouts/DefaultLayout.tsx'
 import { programCards } from '@/mocks.ts'
 import { CartsCard } from '@/modules/сarts/components/CartsCard.tsx'
+import { useScreenLayout } from '@/shared/hooks/useScreenLayout.tsx'
+import { BackTopBar } from '@/shared/topbar/BackTopBar.tsx'
 import { raw } from '@theme/tokens.ts'
 import { Button } from '@ui/Button'
 import { InfoField } from '@ui/InfoField'
 import TitleSubtitle from '@ui/TitleSubtitle'
-import { TopBar } from '@ui/Topbar'
-import { useEffect } from 'react'
 
 export function Carts() {
-  const { setHeader } = useHeader()
+  useScreenLayout({
+    header: <BackTopBar title={'Корзина'} />,
+  })
 
-  useEffect(() => {
-    setHeader(<TopBar left={<Arrow />} title={'Корзина'} />)
-
-    return () => {
-      setHeader(null)
-    }
-  }, [])
   return (
     <Grid $gap={16}>
       <WrapBetween>
