@@ -1,6 +1,6 @@
+import Text from '@ui/typography/Text.tsx'
 import React, { useId } from 'react'
 import styled, { css } from 'styled-components'
-import Text from '../typography/Text.tsx'
 
 const t = (theme?: any) => {
   const r = theme?.raw
