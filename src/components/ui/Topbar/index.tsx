@@ -4,7 +4,7 @@ import React from 'react'
 import styled, { css, type FlattenSimpleInterpolation } from 'styled-components'
 import { Text } from '../typography/Text'
 
-type BadgeVariant = 'default' | 'danger' | 'success' | 'warning' | 'info'
+export type BadgeVariant = 'default' | 'danger' | 'success' | 'warning' | 'info'
 
 type Size = 48 | 80
 
@@ -86,13 +86,12 @@ export function TopBar({
   )
 }
 
-const sizeTokens: Record<Size, { minHeight: number; padding: string }> = {
-  48: { minHeight: 48, padding: '0 16px' },
-  80: { minHeight: 64, padding: '16px' },
+const sizeTokens: Record<Size, { padding: string }> = {
+  48: { padding: '0 16px' },
+  80: { padding: '16px' },
 }
 
 const sizeStyles = ($size: Size = 48): FlattenSimpleInterpolation => css`
-  min-height: ${sizeTokens[$size].minHeight}px;
   padding: ${sizeTokens[$size].padding};
 `
 

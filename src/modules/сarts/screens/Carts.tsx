@@ -9,8 +9,10 @@ import { raw } from '@theme/tokens.ts'
 import { Button } from '@ui/Button'
 import { InfoField } from '@ui/InfoField'
 import TitleSubtitle from '@ui/TitleSubtitle'
+import { useNavigate } from 'react-router-dom'
 
 export function Carts() {
+  const navigation = useNavigate()
   useScreenLayout({
     header: <BackTopBar title={'Корзина'} />,
   })
@@ -39,7 +41,13 @@ export function Carts() {
       <Wrap style={{ background: raw.colors.neutral['0'] }}>
         <Grid $gap={16}>
           <InfoField size={'h2'} label={'Итого'} value={'265 214 ₸'} />
-          <Button>К оформлению</Button>
+          <Button
+            onClick={() => {
+              navigation('/checkout')
+            }}
+          >
+            К оформлению
+          </Button>
         </Grid>
       </Wrap>
     </Grid>

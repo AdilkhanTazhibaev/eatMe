@@ -18,7 +18,7 @@ const router = createBrowserRouter(
       ],
     },
   ],
-  { basename: '/eat-me' },
+  { basename: '/eat-me/' },
 )
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

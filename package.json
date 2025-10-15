@@ -2,6 +2,7 @@
   "name": "eat-me",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://adilkhantazhibaev.github.io/eat-me",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -39,6 +40,7 @@
     "prettier": "^3.6.2",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-tailwindcss": "^0.6.14",
+    "shx": "^0.4.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.44.0",
     "vite": "^7.1.7"

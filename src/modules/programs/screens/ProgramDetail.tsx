@@ -2,38 +2,45 @@ import Shopping from '@/assets/icons/_shopping-bag-02.svg?react'
 import Arrow from '@/assets/icons/arrow.svg?react'
 
 import { CardWrapper } from '@/components/snippets'
-import { useHeader } from '@/layouts/DefaultLayout.tsx'
 import { MealsCard } from '@/modules/programs/components/MealsCard.tsx'
 import { OtherPrograms } from '@/modules/programs/components/OtherPrograms.tsx'
+import { useScreenLayout } from '@/shared/hooks/useScreenLayout.tsx'
+import { BaseTopBar } from '@/shared/topbar/Base.tsx'
 import { raw } from '@theme/tokens.ts'
 import { Notice } from '@ui/Notice'
 import Tag from '@ui/Tags'
 import TitleSubtitle from '@ui/TitleSubtitle'
-import { TopBar } from '@ui/Topbar'
 import Text from '@ui/typography/Text.tsx'
-import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export function ProgramDetail() {
-  const { setHeader } = useHeader()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    setHeader(
-      <TopBar
+  useScreenLayout({
+    mainStyle: {
+      padding: 0,
+    },
+    header: (
+      <BaseTopBar
+        rounded={true}
+        title={'Стандарт'}
+        size={48}
+        caption={'Программа'}
+        right={
+          <Shopping
+            onClick={() => {
+              navigate('/carts')
+            }}
+          ></Shopping>
+        }
         left={
           <Arrow
             onClick={() => {
-              navigate('/programs-nutrition')
+              navigate(-1)
             }}
           />
         }
-        right={<Shopping />}
-        title={'Стандарт'}
-        caption={'Программа'}
-      />,
-    )
-    return () => setHeader(null)
+      />
+    ),
   })
   return (
     <>

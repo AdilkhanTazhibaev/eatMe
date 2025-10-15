@@ -6,12 +6,15 @@ import { Button } from '@ui/Button'
 import Divider from '@ui/Divider'
 import { InfoField } from '@ui/InfoField'
 import TitleSubtitle from '@ui/TitleSubtitle'
+import { useNavigate } from 'react-router-dom'
 
 interface Props extends ProgramCard {
   onClick?: () => void
 }
 
 export function CartsCard({ ...props }: Props) {
+  const navigation = useNavigate()
+
   return (
     <>
       <CardWrapper $color={0}>
@@ -31,6 +34,9 @@ export function CartsCard({ ...props }: Props) {
               fullWidth={false}
               variant={'neutral/text'}
               labelSize={14}
+              onClick={() => {
+                navigation('/nutrition-pricing')
+              }}
               size={36}
             >
               Отредактировать

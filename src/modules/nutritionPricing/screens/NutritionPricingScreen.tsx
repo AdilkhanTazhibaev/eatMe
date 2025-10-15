@@ -12,10 +12,23 @@ import InputSlider from '@ui/InputSlider'
 import { Notice } from '@ui/Notice'
 import TitleSubtitle from '@ui/TitleSubtitle'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export function NutritionPricingScreen() {
+  const navigate = useNavigate()
   useScreenLayout({
-    header: <BackTopBar title={'Дата первой доставки'} right={<Shopping />} />,
+    header: (
+      <BackTopBar
+        title={'Расчет стоимости питания'}
+        right={
+          <Shopping
+            onClick={() => {
+              navigate('/carts')
+            }}
+          />
+        }
+      />
+    ),
     footer: (
       <CardWrapper $padding={1} $color={0}>
         <Grid $gap={10} style={{ padding: 8 }}>
@@ -24,7 +37,14 @@ export function NutritionPricingScreen() {
             label={'Итого за 2 300 кКал на 14 дней питания'}
             value={'159 467 ₸'}
           />
-          <Button leading={<ShoppingOutlined />}>Добавить в корзину</Button>
+          <Button
+            onClick={() => {
+              navigate('/carts')
+            }}
+            leading={<ShoppingOutlined />}
+          >
+            Добавить в корзину
+          </Button>
         </Grid>
       </CardWrapper>
     ),

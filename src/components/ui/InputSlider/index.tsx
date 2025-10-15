@@ -1,4 +1,3 @@
-// src/components/inputs/InputSlider.tsx
 import Text from '@ui/typography/Text'
 import styled from 'styled-components'
 
