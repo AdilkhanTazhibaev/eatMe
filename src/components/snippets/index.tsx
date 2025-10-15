@@ -67,3 +67,23 @@ export const Carousel = styled.div`
     /* чтобы карточка не распирала слайд */
   }
 `
+
+export const Rail = styled.div`
+  min-width: 0;
+
+  border-radius: 16px;
+  overflow: hidden;
+
+  .swiper {
+    width: 100%;
+  }
+
+  .swiper-wrapper {
+    align-items: stretch;
+  }
+
+  .swiper-slide {
+    width: 300px;
+    display: flex;
+  }
+`

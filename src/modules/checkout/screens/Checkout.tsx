@@ -2,7 +2,7 @@ import Arrow from '@/assets/icons/arrow.svg?react'
 import CardPay from '@/assets/icons/card-pay.svg?react'
 import Chevron from '@/assets/icons/chevron.svg?react'
 import Kaspi from '@/assets/icons/kaspi.kz.svg?react'
-import { CardWrapper, Grid } from '@/components/snippets'
+import { CardWrapper, Grid, Rail } from '@/components/snippets'
 import { useHeader } from '@/layouts/DefaultLayout.tsx'
 import { programCards } from '@/mocks.ts'
 import { CheckoutCard } from '@/modules/checkout/components/CheckoutCard.tsx'
@@ -15,7 +15,6 @@ import TitleSubtitle from '@ui/TitleSubtitle'
 import { TopBar } from '@ui/Topbar'
 import Heading from '@ui/typography/Heading.tsx'
 import { useEffect } from 'react'
-import styled from 'styled-components'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 export function Checkout() {
@@ -125,23 +124,3 @@ export function Checkout() {
     </Grid>
   )
 }
-
-const Rail = styled.div`
-  min-width: 0;
-
-  border-radius: 16px;
-  overflow: hidden;
-
-  .swiper {
-    width: 100%;
-  }
-
-  .swiper-wrapper {
-    align-items: stretch;
-  }
-
-  .swiper-slide {
-    width: 300px;
-    display: flex;
-  }
-`

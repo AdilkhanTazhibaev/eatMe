@@ -2,14 +2,15 @@ import { AddressModule } from '@/modules/address'
 import { CheckoutModule } from '@/modules/checkout'
 import { CheckoutAllergensModule } from '@/modules/checkoutAllergens'
 import { CheckoutInvoiceModule } from '@/modules/checkoutInvoice'
+import { DeliveryModule } from '@/modules/comments'
 import { MainModule } from '@/modules/main'
 import { NutritionPricingModule } from '@/modules/nutritionPricing'
 import { ProgramsModule } from '@/modules/programs'
+import { PromocodeModule } from '@/modules/promocodes'
 import { CartsModule } from '@/modules/сarts'
 import { BootstrapService } from '../services/bootstrapService.ts'
 import { AuthModule } from './auth'
 import { OnboardingModule } from './onboarding'
-import { DeliveryModule } from '@/modules/comments'
 
 export const bootstrapService = new BootstrapService()
 bootstrapService.register(MainModule)
@@ -23,3 +24,4 @@ bootstrapService.register(CheckoutAllergensModule)
 bootstrapService.register(CheckoutInvoiceModule)
 bootstrapService.register(AddressModule)
 bootstrapService.register(DeliveryModule)
+bootstrapService.register(PromocodeModule)
