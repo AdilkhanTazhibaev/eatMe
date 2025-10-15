@@ -8,15 +8,18 @@ import './index.css'
 import { bootstrapService } from './modules'
 import { lightTheme } from './theme'
 
-const router = createBrowserRouter([
-  {
-    element: <DefaultLayout />, // Лэйаут — родитель
-    children: [
-      ...bootstrapService.getRoutes(), // страницы
-      { path: '*', element: <div>Not found</div> },
-    ],
-  },
-])
+const router = createBrowserRouter(
+  [
+    {
+      element: <DefaultLayout />, // Лэйаут — родитель
+      children: [
+        ...bootstrapService.getRoutes(), // страницы
+        { path: '*', element: <div>Not found</div> },
+      ],
+    },
+  ],
+  { basename: '/eat-me' },
+)
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider theme={lightTheme}>
